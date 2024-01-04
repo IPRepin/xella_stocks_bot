@@ -1,5 +1,3 @@
-import uuid
-
 from django.db import models
 
 
@@ -16,7 +14,7 @@ class Stock(TimeBaseModel):
         verbose_name = "Акция"
         verbose_name_plural = "Акции"
 
-    id = models.UUIDField(primary_key=True)
+    id = models.IntegerField(primary_key=True)
     name_stock = models.CharField(max_length=100, verbose_name="Название акции")
     description_stock = models.CharField(max_length=250, verbose_name="Описание акции")
     price_stock = models.CharField(max_length=20, verbose_name="Размер скидки или кэшбека")
