@@ -19,13 +19,6 @@ from logs_hendler_telegram import TelegramBotHandler
 logger = logging.getLogger(__name__)
 
 
-#
-# def setup_django():
-#     os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-#                           'admin_panel.admin_panel.settings')
-#     os.environ.update({"DJANGO_ALLOW_ASYNC_UNSAFE": "true"})
-#     django.setup()
-
 async def connect_telegram():
     bot = Bot(token=telegram_token)
     dp = Dispatcher(bot, loop=bot.loop, storage=MemoryStorage())
