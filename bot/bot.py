@@ -26,7 +26,7 @@ async def connect_telegram():
     try:
         await dp.start_polling(bot)
     finally:
-        await bot.close()
+        await bot.session.close()
 
 
 if __name__ == '__main__':
