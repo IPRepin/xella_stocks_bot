@@ -16,9 +16,9 @@ async def choosing_promotion_keyboards():
     for stock in stocks:
         button_text = f"{stock.name_stock}"
         callback_data = make_callback_data(stock.id)
-        print(callback_data)
 
         menu.row(
             InlineKeyboardButton(text=button_text, callback_data=callback_data)
         )
+        print(callback_data)
     return menu

@@ -21,15 +21,17 @@ async def change_stocks(message: types.Message) -> None:
     await message.answer("Выбери нужную акцию⬇️", reply_markup=menu)
 
 
-async def show_promotion(callback: types.CallbackQuery, callback_data: dict) -> None:
+async def show_promotion(callback_query: types.CallbackQuery,
+                         callback_data: dict
+                         ) -> None:
+    print(callback_query.data)
     stock_id = int(callback_data.get("stocks_id"))
     stock = await get_stock(stock_id)
-    text = F"Вы выбрали {stock.name_stock}"
-    await callback.message.edit_text(text)
+    text = f"Вы выбрали {stock.name_stock}"
+    await callback_query.message.edit_text(text)
 
 
 def register_hendlers(dp: Dispatcher):
     dp.register_message_handler(get_start, CommandStart())
     dp.register_message_handler(change_stocks, Text(equals="°/•Сложить скидки"))
-    dp.register_callback_query_handler(show_promotion, stocks_cd.filter())
-    print("add hendlers")
+    dp.register_callback_query_handler(show_promotion,  stocks_cd.filter())
