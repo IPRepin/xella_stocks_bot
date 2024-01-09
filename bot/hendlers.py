@@ -4,6 +4,7 @@ from aiogram.dispatcher.filters import CommandStart, Text
 from keyboards.inline import choosing_promotion_keyboards, stocks_cd
 from keyboards.reply import reply_markup
 from misc.db_comands import get_stock
+from misc.sort_stocks import sort_promotion
 
 
 async def get_start(message: types.Message) -> None:
@@ -24,14 +25,23 @@ async def change_stocks(message: types.Message) -> None:
 async def show_promotion(callback_query: types.CallbackQuery,
                          callback_data: dict
                          ) -> None:
-    print(callback_query.data)
     stock_id = int(callback_data.get("stocks_id"))
     stock = await get_stock(stock_id)
-    text = f"Вы выбрали {stock.name_stock}"
+    stocks_lst = await sort_promotion(stock.category)
+    stocks_lst = '\n'.join(stocks_lst)
+    if stock.category == "A":
+        text = (f"Акция '✅{stock.name_stock}' суммируется с одной из акций⬇️\n"
+                f"{stocks_lst}")
+    elif stock.category == "B":
+        text = (f"Акция '✅{stock.name_stock}' суммируется с⬇️\n"
+                f"{stocks_lst}")
+    else:
+        text = (f"Акция '⛔{stock.name_stock}'"
+                f"не суммируется ни со одной акцией!")
     await callback_query.message.edit_text(text)
 
 
 def register_hendlers(dp: Dispatcher):
     dp.register_message_handler(get_start, CommandStart())
     dp.register_message_handler(change_stocks, Text(equals="°/•Сложить скидки"))
-    dp.register_callback_query_handler(show_promotion,  stocks_cd.filter())
+    dp.register_callback_query_handler(show_promotion, stocks_cd.filter())

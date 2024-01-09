@@ -20,5 +20,4 @@ async def choosing_promotion_keyboards():
         menu.row(
             InlineKeyboardButton(text=button_text, callback_data=callback_data)
         )
-        print(callback_data)
     return menu
